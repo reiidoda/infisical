@@ -64,3 +64,12 @@ export const SECRET_ROTATION_CONNECTION_MAP: Record<SecretRotation, AppConnectio
   [SecretRotation.CloudflareR2AccessKey]: AppConnection.Cloudflare,
   [SecretRotation.StripeApiKey]: AppConnection.Stripe
 };
+
+const SECRET_ROTATION_ADDITIONAL_CONNECTION_MAP: Partial<Record<SecretRotation, AppConnection[]>> = {
+  [SecretRotation.HpIloLocalAccount]: [AppConnection.HpeIloRedFish]
+};
+
+export const getSecretRotationConnectionApps = (type: SecretRotation): [AppConnection, ...AppConnection[]] => [
+  SECRET_ROTATION_CONNECTION_MAP[type],
+  ...(SECRET_ROTATION_ADDITIONAL_CONNECTION_MAP[type] ?? [])
+];
